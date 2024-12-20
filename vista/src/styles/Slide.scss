@@ -1,0 +1,19 @@
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+  
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .swiper-slide img {
+      width: 100%;
+      height: auto; /* Maintain aspect ratio */
+      object-fit: contain;
+      margin: 0 auto;
+    }
+  }
+  

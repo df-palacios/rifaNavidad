@@ -1,0 +1,52 @@
+.header-styled {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* This will center-align the content of the header */
+    padding: 10px 25px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+
+    .logo {
+        font-family: 'Recoleta';
+        font-size: xx-large;
+        font-weight: 900;
+    }
+
+    .book {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+
+        p {
+            font-size: x-small;
+            text-align: right;
+        }
+
+        button {
+            font-family: 'Recoleta';
+            font-size: 10px;
+            border: 1px solid currentColor;
+            padding: 7.5px 15px;
+            border-radius: 50%;
+            transition: .3s ease;
+
+            &:hover {
+                background: #000;
+                color: #fff;
+                transition: .3s ease;
+            }
+        }
+    }
+
+    .navidad-logo {
+        position: absolute;
+        top: 10px; /* Adjust the distance from the top */
+        right: 20px; /* Adjust the distance from the right */
+        height: 120px; /* Set the size of the logo */
+        width: auto; /* Maintain the aspect ratio */
+    }
+}
