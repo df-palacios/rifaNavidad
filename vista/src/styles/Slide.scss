@@ -1,19 +1,20 @@
 .slider-container {
-    position: relative;
-    width: 100%;
-    height: auto;
-  
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  
-    .swiper-slide img {
-      width: 100%;
-      height: auto; /* Maintain aspect ratio */
-      object-fit: contain;
-      margin: 0 auto;
-    }
+  position: absolute;
+  top: 25%; /* Aparece al 25% de la altura de la página */
+  width: 100%;
+  height: auto;
+
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  
+
+  .swiper-slide img {
+    max-width: 80%; /* Limitar el ancho de las imágenes para evitar colisiones */
+    max-height: 40vh; /* Ajustar altura máxima para no interferir con el footer */
+    height: auto; /* Mantener la proporción */
+    object-fit: contain; /* Escalar sin recortar */
+    margin: 0 auto;
+  }
+}
