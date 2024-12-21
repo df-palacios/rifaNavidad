@@ -1,71 +1,49 @@
 .footer-styled {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 25px;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    top: 67%; /* Ubicar al 67% de la altura de la página */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Ajustar posición para centrar */
+    width: 100%; /* Ocupa todo el ancho de la página */
+    display: flex;
+    justify-content: center; /* Centrar contenido horizontalmente */
+    padding: 20px 0; /* Espaciado arriba y abajo */
     z-index: 999;
 
-    .footer-left {
+    .footer-center {
         display: flex;
+        flex-direction: column; /* Apilar los botones verticalmente */
         align-items: center;
-        gap: 30px;
-        font-size: 11px;
+        gap: 15px; /* Espacio entre botones */
 
-        span {
+        .btn-participar {
+            background-color: orange;
+            color: white;
+            border: none;
+            border-radius: 8px; /* Bordes redondeados */
+            padding: 20px 40px; /* Botón más grande */
+            font-size: 20px; /* Texto más grande */
+            font-weight: bold;
             cursor: pointer;
-            padding-bottom: 2px;
+            transition: 0.3s ease;
 
             &:hover {
-                border-bottom: 2px solid;
+                background-color: darkorange;
+                transform: scale(1.1); /* Más grande al pasar el mouse */
             }
         }
-    }
 
-    .footer-right {
-        display: flex;
-        align-items: center;
-        gap: 25px;
-        font-size: xx-small;
-        font-family: 'Helvetica Neue';
-
-        span {
+        .btn-ver-ganadores {
+            background: none;
+            color: black;
+            border: none;
+            font-size: 16px; /* Texto más grande */
+            text-decoration: underline;
             cursor: pointer;
-            padding-bottom: 2px;
+            transition: 0.3s ease;
 
             &:hover {
-                border-bottom: 1px solid;
-            }
-        }
-
-        button {
-            border: 1px solid currentColor;
-            border-radius: 50%;
-            padding: 2.5px 10px;
-            transition: .3s ease;
-            
-            &:hover {
-                background: #000;
-                transition: .3s ease;
-                color: #fff;
-            }
-        }
-
-        div {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 25px;
-
-            svg {
-                transition: .3s ease;
-            }
-
-            &:hover svg {
-                transform: rotate(-90deg);
-                transition: .3s ease;
+                color: gray;
+                transform: scale(1.05); /* Ligeramente más grande al pasar el mouse */
             }
         }
     }
