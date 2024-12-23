@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Header from '../components/Header'; // Importa el Header
 import Slide from '../components/Slide';
-import backgroundImage from '../assets/FotosRetocadas/background2.jpg'; // Adjust the path to your image
+import FormValidacion from '../components/FormValidacion';
+import ListaGanadores from '../components/ListaGanadores';
+import Footer from '../components/Footer';
+import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
 
 const Home = () => {
+    const [view, setView] = useState('slide'); // Estado para alternar vistas
+
     const homeStyle = {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
@@ -12,13 +18,15 @@ const Home = () => {
     };
 
     return (
-        <div className='home-styled' style={homeStyle}>
-            <div className='title'>
-               
-                
+        <>
+            <Header /> {/* Agrega el Header aquí */}
+            <div className='home-styled' style={homeStyle}>
+                {view === 'slide' && <Slide />}
+                {view === 'form' && <FormValidacion />}
+                {view === 'ganadores' && <ListaGanadores />}
+                <Footer setView={setView} />
             </div>
-            <Slide />
-        </div>
+        </>
     );
 };
 
