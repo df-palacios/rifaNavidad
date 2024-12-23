@@ -9,25 +9,12 @@
     height: 25vh; /* Ocupa el 25% de la altura de la ventana */
     z-index: 999;
 
-    .header-title {
-        font-family: 'Recoleta', serif; /* Fuente elegante y festiva */
-        font-size: 4rem; /* Tamaño más grande */
-        font-weight: 700;
-        color: #FFA500; /* Anaranjado */
-        text-align: center;
-        text-shadow: 1px 1px 0px #fff, -1px -1px 0px #fff; /* Contorno blanco sutil */
-        margin: 0;
+    .header-image {
         position: absolute;
-        top: 20%; /* Subir un poco más */
+        top: 10%; /* 10% de la altura vertical */
         left: 50%;
         transform: translateX(-50%); /* Centrado horizontal */
-    }
-
-    .navidad-logo {
-        position: absolute;
-        top: 10px; /* Ajustar la distancia desde el top */
-        right: 20px; /* Ajustar la distancia desde la derecha */
-        height: 120px; /* Tamaño del logo */
-        width: auto; /* Mantener proporción */
+        max-height: 80%; /* Asegura que no ocupe más del área visible */
+        width: auto; /* Mantiene proporciones */
     }
 }

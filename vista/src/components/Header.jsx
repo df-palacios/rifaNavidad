@@ -1,11 +1,10 @@
 import React from 'react';
-import LogoNavidad from '../assets/FotosRetocadas/LogoNavidad.png';
+import HeaderImage from '../assets/FotosRetocadas/headerImage.png';
 
 const Header = () => {
     return (
         <header className="header-styled">
-            <h1 className="header-title">GRAN RIFA NAVIDEÑA</h1>
-            <img src={LogoNavidad} alt="Navidad Logo" className="navidad-logo" />
+            <img src={HeaderImage} alt="Header" className="header-image" />
         </header>
     );
 };

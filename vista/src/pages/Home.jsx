@@ -1,6 +1,6 @@
 import React from 'react';
 import Slide from '../components/Slide';
-import backgroundImage from '../assets/FotosRetocadas/background.jpg'; // Adjust the path to your image
+import backgroundImage from '../assets/FotosRetocadas/background2.jpg'; // Adjust the path to your image
 
 const Home = () => {
     const homeStyle = {
