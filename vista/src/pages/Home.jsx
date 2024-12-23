@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Header from '../components/Header'; // Importa el Header
+import Header from '../components/Header'; 
 import Slide from '../components/Slide';
 import FormValidacion from '../components/FormValidacion';
 import ListaGanadores from '../components/ListaGanadores';
@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
 
 const Home = () => {
-    const [view, setView] = useState('slide'); // Estado para alternar vistas
+    const [view, setView] = useState('slide'); 
 
     const homeStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -19,12 +19,12 @@ const Home = () => {
 
     return (
         <>
-            <Header /> {/* Agrega el Header aquí */}
+            <Header /> 
             <div className='home-styled' style={homeStyle}>
                 {view === 'slide' && <Slide />}
                 {view === 'form' && <FormValidacion />}
                 {view === 'ganadores' && <ListaGanadores />}
-                <Footer setView={setView} />
+                <Footer setView={setView} currentView={view} />
             </div>
         </>
     );
