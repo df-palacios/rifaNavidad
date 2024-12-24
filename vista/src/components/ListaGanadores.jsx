@@ -43,26 +43,27 @@ const ListaGanadores = () => {
 
     return (
         <div className="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Premio</th>
-                        <th>Ganador</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {premios.map((premio) => (
-                        <tr key={premio.idPremio}>
-                            <td>{premio.nombrePremio}</td>
-                            <td>
-                                {premio.idGanador
-                                    ? ganadores[premio.idGanador] || 'Cargando...'
-                                    : 'Aún no hay ganador'}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {/* Encabezado separado de la tabla */}
+            <div className="table-header">
+                <div>Premio</div>
+                <div>Ganador</div>
+            </div>
+            <div className="table-content">
+                <table>
+                    <tbody>
+                        {premios.map((premio) => (
+                            <tr key={premio.idPremio}>
+                                <td>{premio.nombrePremio}</td>
+                                <td>
+                                    {premio.idGanador
+                                        ? ganadores[premio.idGanador] || 'Cargando...'
+                                        : 'Aún no hay ganador'}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

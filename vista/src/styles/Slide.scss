@@ -11,10 +11,23 @@
   }
 
   .swiper-slide img {
-    max-width: 80%; /* Limitar el ancho de las imágenes para evitar colisiones */
+    max-width: 80%;
     max-height: 40vh; /* Ajustar altura máxima para no interferir con el footer */
     height: auto; /* Mantener la proporción */
     object-fit: contain; /* Escalar sin recortar */
     margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .swiper-slide img {
+      max-width: 90%;
+      max-height: 30vh; /* Reducir altura en pantallas pequeñas */
+    }
+  }
+
+  @media (orientation: portrait) {
+    .swiper-slide img {
+      max-height: 20vh; /* Reducir aún más en pantallas verticales */
+    }
   }
 }
