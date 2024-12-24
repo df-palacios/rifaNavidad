@@ -1,0 +1,50 @@
+.juego-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    .btn-jugar {
+        background-color: orange;
+        color: white;
+        padding: 20px 40px;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            background-color: darkorange;
+        }
+    }
+
+    .slider-container {
+        width: 100%;
+        max-width: 800px; /* Ancho máximo del slider */
+        margin-top: 20px;
+        height: auto;
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .swiper-slide img {
+            max-width: 80%; /* Asegurar que las imágenes no ocupen demasiado espacio */
+            max-height: 300px; /* Limitar la altura máxima */
+            object-fit: contain; /* Mantener proporciones */
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .swiper-slide img {
+                max-width: 90%; /* Ajustar el ancho para pantallas pequeñas */
+                max-height: 200px; /* Reducir la altura en pantallas pequeñas */
+            }
+        }
+    }
+}
