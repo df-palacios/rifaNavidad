@@ -10,12 +10,16 @@ class Premio extends Model
 {
     use HasFactory;
 
+
     // Especificar qué campos pueden ser asignados de manera masiva
     protected $fillable = [
         'nombrePremio',
         'idGanador',
         'disponible',
     ];
+
+    // Definir la clave primaria
+    protected $primaryKey = 'idPremio';
 
     // Relación con el modelo Cliente (si un premio tiene un ganador)
     public function cliente()
