@@ -8,11 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->integer('identificacion')->primary();
+            $table->integer('identificacion')->primary(); // Llave primaria sin autoincremento
             $table->string('nombreUsuario');
             $table->boolean('usuarioHabilitado');
             $table->boolean('haParticipado');
@@ -23,8 +25,10 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('clientes');
     }

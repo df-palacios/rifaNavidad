@@ -8,15 +8,17 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
         Schema::create('premios', function (Blueprint $table) {
-            $table->increments('idPremio');
+            $table->increments('idPremio'); // Llave primaria con autoincremento
             $table->string('nombrePremio');
-            $table->integer('idGanador')->nullable();
+            $table->integer('idGanador')->nullable(); // Llave foránea que corresponde a clientes.identificacion
             $table->boolean('disponible');
-            $table->foreign('idGanador')->references('identificacion')->on('clientes');
+            $table->foreign('idGanador')->references('identificacion')->on('clientes')->onDelete('set null'); // Relación con la tabla clientes
             $table->timestamps();
         });
     }
@@ -24,8 +26,10 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('premios');
     }
