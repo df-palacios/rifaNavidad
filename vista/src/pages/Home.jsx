@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import Header from '../components/Header'; 
+import Header from '../components/Header';
 import Slide from '../components/Slide';
 import FormValidacion from '../components/FormValidacion';
 import ListaGanadores from '../components/ListaGanadores';
 import Footer from '../components/Footer';
 import Juego from '../components/Juego';
 import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
+import '../styles/Home.scss';
 
 const Home = () => {
-    const [view, setView] = useState('slide'); 
+    const [view, setView] = useState('slide');
     const [isUserValidated, setIsUserValidated] = useState(false);
 
     const homeStyle = {
@@ -19,10 +20,14 @@ const Home = () => {
         width: '100%',
     };
 
+    const resetUserValidation = () => {
+        setIsUserValidated(false);
+    };
+
     return (
         <>
-            <Header /> 
-            <div className='home-styled' style={homeStyle}>
+            <Header />
+            <div className="home-styled" style={homeStyle}>
                 {view === 'slide' && <Slide />}
                 {view === 'form' && (
                     <FormValidacion
@@ -31,8 +36,19 @@ const Home = () => {
                     />
                 )}
                 {view === 'ganadores' && <ListaGanadores />}
-                {view === 'juego' && <Juego onFinish={() => setView('slide')} />}
-                <Footer setView={setView} currentView={view} isUserValidated={isUserValidated} />
+                {view === 'juego' && (
+                    <Juego
+                        onFinish={() => {
+                            setView('slide');
+                            resetUserValidation(); // Asegura que el footer sea visible después
+                        }}
+                    />
+                )}
+                <Footer
+                    setView={setView}
+                    currentView={view}
+                    isUserValidated={isUserValidated}
+                />
             </div>
         </>
     );
