@@ -13,7 +13,8 @@
     text-align: center;
   }
 
-  .btn-spin {
+  .btn-spin,
+  .btn-return {
     margin-top: 20px;
     background-color: #007bff;
     color: white;
@@ -27,5 +28,18 @@
     &:hover {
       background-color: #0056b3;
     }
+  }
+
+  .btn-return {
+    background-color: #28a745;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+
+  .btn-spin:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
   }
 }

@@ -4,12 +4,12 @@ import Slide from '../components/Slide';
 import FormValidacion from '../components/FormValidacion';
 import ListaGanadores from '../components/ListaGanadores';
 import Footer from '../components/Footer';
-import Juego from '../components/Juego'; // Importar el nuevo componente
+import Juego from '../components/Juego';
 import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
 
 const Home = () => {
     const [view, setView] = useState('slide'); 
-    const [isUserValidated, setIsUserValidated] = useState(false); // Estado para el usuario validado
+    const [isUserValidated, setIsUserValidated] = useState(false);
 
     const homeStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -26,12 +26,12 @@ const Home = () => {
                 {view === 'slide' && <Slide />}
                 {view === 'form' && (
                     <FormValidacion
-                        onPlay={() => setView('juego')} // Cambiar la vista a "juego"
+                        onPlay={() => setView('juego')}
                         setUserValidated={setIsUserValidated}
                     />
                 )}
                 {view === 'ganadores' && <ListaGanadores />}
-                {view === 'juego' && <Juego onGameEnd={() => setView('slide')} />} {/* Manejar el fin del juego */}
+                {view === 'juego' && <Juego onFinish={() => setView('slide')} />}
                 <Footer setView={setView} currentView={view} isUserValidated={isUserValidated} />
             </div>
         </>
