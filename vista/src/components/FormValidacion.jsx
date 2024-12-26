@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/FormValidacion.scss';
 
-const FormValidacion = () => {
+const FormValidacion = ({ onPlay }) => {
     const [identificacion, setIdentificacion] = useState(''); // Estado para la identificación ingresada
     const [mensaje, setMensaje] = useState(''); // Estado para mostrar mensajes al usuario
+    const [isValidated, setIsValidated] = useState(false); // Estado para saber si se validó exitosamente
 
     const handleValidarParticipacion = () => {
         // Verificar si la identificación está vacía
@@ -28,6 +29,7 @@ const FormValidacion = () => {
                         })
                         .then(() => {
                             setMensaje('¡Participación validada con éxito!');
+                            setIsValidated(true); // Activar el estado validado
                         })
                         .catch((error) => {
                             console.error('Error al actualizar la participación:', error);
@@ -50,15 +52,26 @@ const FormValidacion = () => {
 
     return (
         <div className="form-container">
-            <h2>Validar Participación</h2>
-            <input
-                type="number"
-                placeholder="Ingresa tu identificación"
-                value={identificacion}
-                onChange={(e) => setIdentificacion(e.target.value)} // Actualizar el estado con la identificación ingresada
-            />
-            <button onClick={handleValidarParticipacion}>INGRESAR</button>
-            {mensaje && <p className="mensaje">{mensaje}</p>} {/* Mostrar mensajes al usuario */}
+            {!isValidated ? (
+                <>
+                    <h2>Validar Participación</h2>
+                    <input
+                        type="number"
+                        placeholder="Ingresa tu identificación"
+                        value={identificacion}
+                        onChange={(e) => setIdentificacion(e.target.value)} // Actualizar el estado con la identificación ingresada
+                    />
+                    <button onClick={handleValidarParticipacion}>INGRESAR</button>
+                    {mensaje && <p className="mensaje">{mensaje}</p>} {/* Mostrar mensajes al usuario */}
+                </>
+            ) : (
+                <>
+                    <h2>{mensaje}</h2>
+                    <button className="btn-jugar" onClick={onPlay}>
+                        JUGAR
+                    </button>
+                </>
+            )}
         </div>
     );
 };
