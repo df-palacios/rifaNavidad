@@ -37,15 +37,16 @@ const Juego = ({ onFinish }) => {
 
   return (
     <div className="juego-container">
-      <h2>¡Gira la rueda de la fortuna!</h2>
+      <h2 className="contrasted-text">¡Gira la rueda de la fortuna!</h2>
       {premios.length > 0 && (
         <Wheel
           mustStartSpinning={mustSpin}
           prizeNumber={prizeIndex}
           data={premios}
           onStopSpinning={handleSpinEnd}
-          backgroundColors={['#FFDD00', '#FF5722']}
-          textColors={['#000']}
+          backgroundColors={['#FFDD00', '#FF5722', '#4CAF50', '#03A9F4', '#FFC107', '#9C27B0', '#E91E63', '#607D8B']}
+          textColors={['#000', '#fff']}
+          fontSize={14} // Texto más pequeño
         />
       )}
       <button onClick={handleSpinClick} className="btn-spin">

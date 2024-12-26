@@ -1,30 +1,31 @@
 .juego-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  
-    h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-      color: #333;
-    }
-  
-    .btn-spin {
-      margin-top: 20px;
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-  
-      &:hover {
-        background-color: #0056b3;
-      }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  h2 {
+    font-size: 28px; /* Texto más grande */
+    color: white; /* Texto claro */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Contorno para contraste */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .btn-spin {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #0056b3;
     }
   }
-  
+}
