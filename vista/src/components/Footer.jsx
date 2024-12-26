@@ -1,6 +1,6 @@
-import React from 'react';
+const Footer = ({ setView, currentView, isUserValidated }) => {
+    if (isUserValidated) return null; // No mostrar el footer si el usuario está validado
 
-const Footer = ({ setView, currentView }) => { 
     return (
         <footer className='footer-styled'>
             <div className="footer-center">

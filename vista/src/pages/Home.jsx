@@ -8,6 +8,7 @@ import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
 
 const Home = () => {
     const [view, setView] = useState('slide'); 
+    const [isUserValidated, setIsUserValidated] = useState(false); // Estado para el usuario validado
 
     const homeStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -22,9 +23,11 @@ const Home = () => {
             <Header /> 
             <div className='home-styled' style={homeStyle}>
                 {view === 'slide' && <Slide />}
-                {view === 'form' && <FormValidacion />}
+                {view === 'form' && (
+                    <FormValidacion onPlay={() => setView('slide')} setUserValidated={setIsUserValidated} />
+                )}
                 {view === 'ganadores' && <ListaGanadores />}
-                <Footer setView={setView} currentView={view} />
+                <Footer setView={setView} currentView={view} isUserValidated={isUserValidated} />
             </div>
         </>
     );
