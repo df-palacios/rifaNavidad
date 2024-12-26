@@ -63,9 +63,10 @@ const FormValidacion = ({ onPlay, setUserValidated }) => {
             ) : (
                 <>
                     <h2>{mensaje}</h2>
-                    <button className="btn-jugar" >
+                    <button className="btn-jugar" onClick={onPlay}>
                         JUGAR
                     </button>
+
                 </>
             )}
         </div>

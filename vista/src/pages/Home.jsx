@@ -4,6 +4,7 @@ import Slide from '../components/Slide';
 import FormValidacion from '../components/FormValidacion';
 import ListaGanadores from '../components/ListaGanadores';
 import Footer from '../components/Footer';
+import Juego from '../components/Juego'; // Importar el nuevo componente
 import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
 
 const Home = () => {
@@ -24,9 +25,13 @@ const Home = () => {
             <div className='home-styled' style={homeStyle}>
                 {view === 'slide' && <Slide />}
                 {view === 'form' && (
-                    <FormValidacion onPlay={() => setView('slide')} setUserValidated={setIsUserValidated} />
+                    <FormValidacion
+                        onPlay={() => setView('juego')} // Cambiar la vista a "juego"
+                        setUserValidated={setIsUserValidated}
+                    />
                 )}
                 {view === 'ganadores' && <ListaGanadores />}
+                {view === 'juego' && <Juego onGameEnd={() => setView('slide')} />} {/* Manejar el fin del juego */}
                 <Footer setView={setView} currentView={view} isUserValidated={isUserValidated} />
             </div>
         </>
