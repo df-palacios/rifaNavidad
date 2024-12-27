@@ -10,7 +10,7 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
 
     useEffect(() => {
         axios
-            .get('http://127.0.0.1:8000/api/premios')
+            .get(`${process.env.REACT_APP_API_URL}/api/premios`)
             .then((response) => {
                 const disponibles = response.data.some((premio) => premio.disponible === 1);
                 setPremiosDisponibles(disponibles);
@@ -36,13 +36,13 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
         }
 
         axios
-            .get(`http://127.0.0.1:8000/api/clientes/${identificacion}`)
+            .get(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`)
             .then((response) => {
                 const cliente = response.data;
 
                 if (cliente.usuarioHabilitado && !cliente.haParticipado) {
                     axios
-                        .put(`http://127.0.0.1:8000/api/clientes/${identificacion}`, {
+                        .put(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`, {
                             haParticipado: 1,
                         })
                         .then(() => {

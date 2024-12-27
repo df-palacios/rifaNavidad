@@ -34,12 +34,12 @@ const Juego = ({ onFinish, userId }) => {
     const asignarPremio = async () => {
         try {
             // Obtener el primer premio disponible
-            const response = await axios.get('http://127.0.0.1:8000/api/premios');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/premios`);
             const premioDisponible = response.data.find((premio) => premio.disponible === 1);
 
             if (premioDisponible) {
                 // Actualizar el premio con el ID del ganador
-                await axios.put(`http://127.0.0.1:8000/api/premios/${premioDisponible.idPremio}`, {
+                await axios.put(`${process.env.REACT_APP_API_URL}/api/premios/${premioDisponible.idPremio}`, {
                     disponible: false,
                     idGanador: userId, // ID del usuario ganador
                 });
