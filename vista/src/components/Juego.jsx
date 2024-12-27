@@ -44,7 +44,7 @@ const Juego = ({ onFinish, userId }) => {
                     idGanador: userId, // ID del usuario ganador
                 });
 
-                alert(`¡Felicidades! Ganaste el premio: ${premioDisponible.nombrePremio}. Tu ID: ${userId}`);
+                alert(`¡Felicidades! Ganaste el premio: ${premioDisponible.nombrePremio}`);
             } else {
                 alert('No hay premios disponibles en este momento.');
             }
