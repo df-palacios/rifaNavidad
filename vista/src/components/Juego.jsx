@@ -5,8 +5,8 @@ import '../styles/Juego.scss';
 
 const Juego = ({ onFinish, userId }) => {
     const premios = [
-        { option: '😃' },
-        { option: '😓' },
+        { option: '😃' }, // Ganador
+        { option: '😓' }, // Perdedor
     ];
 
     const [mustSpin, setMustSpin] = useState(false);
@@ -15,7 +15,9 @@ const Juego = ({ onFinish, userId }) => {
 
     const handleSpinClick = () => {
         if (!mustSpin) {
-            const index = Math.floor(Math.random() * premios.length);
+            // Lógica para 1/60 probabilidad de ganar
+            const randomNumber = Math.floor(Math.random() * 60); // Generar un número entre 0 y 59
+            const index = randomNumber === 0 ? 0 : 1; // Si es 0, gana; de lo contrario, pierde
             setPrizeIndex(index);
             setMustSpin(true);
         }
@@ -44,13 +46,13 @@ const Juego = ({ onFinish, userId }) => {
                     idGanador: userId, // ID del usuario ganador
                 });
 
-                alert(`¡Felicidades! Ganaste el premio: ${premioDisponible.nombrePremio}`);
+                setResult(`¡GANASTE: ${premioDisponible.nombrePremio}!`);
             } else {
-                alert('No hay premios disponibles en este momento.');
+                setResult('No hay premios disponibles en este momento.');
             }
         } catch (error) {
             console.error('Error al asignar el premio:', error);
-            alert('Hubo un error al asignar el premio. Intenta nuevamente.');
+            setResult('Hubo un error al asignar el premio. Intenta nuevamente.');
         }
     };
 
