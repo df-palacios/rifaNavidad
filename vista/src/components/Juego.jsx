@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
+import axios from 'axios';
 import '../styles/Juego.scss';
 
-const Juego = ({ onFinish }) => {
+const Juego = ({ onFinish, userId }) => {
     const premios = [
         { option: '😃' },
         { option: '😓' },
@@ -24,6 +25,33 @@ const Juego = ({ onFinish }) => {
         setMustSpin(false);
         const resultMessage = premios[prizeIndex].option === '😃' ? 'GANASTE' : 'PERDISTE';
         setResult(resultMessage);
+
+        if (resultMessage === 'GANASTE') {
+            asignarPremio();
+        }
+    };
+
+    const asignarPremio = async () => {
+        try {
+            // Obtener el primer premio disponible
+            const response = await axios.get('http://127.0.0.1:8000/api/premios');
+            const premioDisponible = response.data.find((premio) => premio.disponible === 1);
+
+            if (premioDisponible) {
+                // Actualizar el premio con el ID del ganador
+                await axios.put(`http://127.0.0.1:8000/api/premios/${premioDisponible.idPremio}`, {
+                    disponible: false,
+                    idGanador: userId, // ID del usuario ganador
+                });
+
+                alert(`¡Felicidades! Ganaste el premio: ${premioDisponible.nombrePremio}. Tu ID: ${userId}`);
+            } else {
+                alert('No hay premios disponibles en este momento.');
+            }
+        } catch (error) {
+            console.error('Error al asignar el premio:', error);
+            alert('Hubo un error al asignar el premio. Intenta nuevamente.');
+        }
     };
 
     return (

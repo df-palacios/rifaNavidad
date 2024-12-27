@@ -11,6 +11,7 @@ import '../styles/Home.scss';
 const Home = () => {
     const [view, setView] = useState('slide');
     const [isUserValidated, setIsUserValidated] = useState(false);
+    const [userId, setUserId] = useState(null); // Estado para guardar el ID del usuario
 
     const homeStyle = {
         backgroundImage: `url(${backgroundImage})`,
@@ -33,6 +34,7 @@ const Home = () => {
                     <FormValidacion
                         onPlay={() => setView('juego')}
                         setUserValidated={setIsUserValidated}
+                        setUserId={setUserId} // Pasar setUserId al formulario
                     />
                 )}
                 {view === 'ganadores' && <ListaGanadores />}
@@ -40,8 +42,9 @@ const Home = () => {
                     <Juego
                         onFinish={() => {
                             setView('slide');
-                            resetUserValidation(); // Asegura que el footer sea visible después
+                            resetUserValidation();
                         }}
+                        userId={userId} // Pasar el userId al componente Juego
                     />
                 )}
                 <Footer

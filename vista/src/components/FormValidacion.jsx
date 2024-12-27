@@ -2,18 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/FormValidacion.scss';
 
-const FormValidacion = ({ onPlay, setUserValidated }) => {
+const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
     const [identificacion, setIdentificacion] = useState('');
     const [mensaje, setMensaje] = useState('');
     const [isValidated, setIsValidated] = useState(false);
     const [premiosDisponibles, setPremiosDisponibles] = useState(false);
 
-    // Verificar si hay premios disponibles al cargar el componente
     useEffect(() => {
         axios
             .get('http://127.0.0.1:8000/api/premios')
             .then((response) => {
-                // Filtrar premios con el atributo disponible igual a 1
                 const disponibles = response.data.some((premio) => premio.disponible === 1);
                 setPremiosDisponibles(disponibles);
                 if (!disponibles) {
@@ -51,6 +49,7 @@ const FormValidacion = ({ onPlay, setUserValidated }) => {
                             setMensaje('¡Participación validada con éxito!');
                             setIsValidated(true);
                             setUserValidated(true);
+                            setUserId(identificacion); // Establecer el ID del usuario
                         })
                         .catch((error) => {
                             console.error('Error al actualizar la participación:', error);
@@ -80,11 +79,11 @@ const FormValidacion = ({ onPlay, setUserValidated }) => {
                         placeholder="Ingresa tu identificación"
                         value={identificacion}
                         onChange={(e) => setIdentificacion(e.target.value)}
-                        disabled={!premiosDisponibles} // Desactivar si no hay premios
+                        disabled={!premiosDisponibles}
                     />
                     <button
                         onClick={handleValidarParticipacion}
-                        disabled={!premiosDisponibles} // Desactivar si no hay premios
+                        disabled={!premiosDisponibles}
                     >
                         INGRESAR
                     </button>
