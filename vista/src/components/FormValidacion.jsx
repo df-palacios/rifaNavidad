@@ -65,7 +65,7 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
             })
             .catch((error) => {
                 console.error('Error al obtener los datos del cliente:', error);
-                setMensaje('No se encontró un usuario con esa identificación.');
+                setMensaje('No se encontró un usuario con esa identificación o no está habilitado para participar por falta de pago.');
             });
     };
 
