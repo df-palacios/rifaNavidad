@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import '../styles/Footer.scss';
 
 const Footer = ({ setView, currentView, isUserValidated }) => {
@@ -21,6 +22,12 @@ const Footer = ({ setView, currentView, isUserValidated }) => {
                     onClick={() => setView(currentView === 'ganadores' ? 'slide' : 'ganadores')}
                 >
                     {currentView === 'ganadores' ? 'REGRESAR' : 'VER GANADORES'}
+                </button>
+                <button
+                    className="btn-testing-reset"
+                    onClick={async ()=>{try{await axios.post('http://localhost:8000/api/reset-db');;alert("Base de datos reiniciada correctamente.");}catch(e){alert("Error al reiniciar la base de datos.");}}}
+                >
+                    [TESTING] Reiniciar base de datos
                 </button>
             </div>
         </footer>
