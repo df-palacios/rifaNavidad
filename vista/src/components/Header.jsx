@@ -1,15 +1,46 @@
 import React from 'react';
+import axios from 'axios';
 import HeaderImage from '../assets/FotosRetocadas/headerImage.png';
+import '../styles/Header.scss';
 
-/**
- * Renders the header component for the application.
- * The header includes an image with the class "header-image".
- * The header is wrapped in a "header-styled" class.
- */
 const Header = () => {
+
+    const resetDatabase = async () => {
+        try {
+            await axios.post('http://localhost:8000/api/reset-db');
+            alert("Base de datos reiniciada correctamente.");
+        } catch (e) {
+            alert("Error al reiniciar la base de datos.");
+        }
+    };
+
     return (
         <header className="header-styled">
-            <img src={HeaderImage} alt="Header" className="header-image" />
+
+            <div className="header-buttons">
+
+                <button
+                    className="btn-portfolio"
+                    onClick={() => window.location.href = "https://dfpalacios.cloud"}
+                >
+                    ← Volver al Portafolio
+                </button>
+
+                <button
+                    className="btn-testing-reset"
+                    onClick={resetDatabase}
+                >
+                    [TESTING] Reiniciar BD
+                </button>
+
+            </div>
+
+            <img
+                src={HeaderImage}
+                alt="Header"
+                className="header-image"
+            />
+
         </header>
     );
 };
