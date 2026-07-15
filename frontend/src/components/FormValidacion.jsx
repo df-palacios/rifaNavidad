@@ -81,6 +81,9 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
                         onChange={(e) => setIdentificacion(e.target.value)}
                         disabled={!premiosDisponibles}
                     />
+                    <medium style={{display:'block', margin:'8px 0 12px', color:'#555', fontWeight:'600', textAlign:'center'}}>
+                        Ingrese un número entre 1 y 99 para probar la aplicación, sólo los usuarios impares pueden participar.
+                    </medium>
                     <button
                         onClick={handleValidarParticipacion}
                         disabled={!premiosDisponibles}
