@@ -1,43 +1,61 @@
-Instrucciones:
+# Rifa Navideña
 
-requerido:
-php 8.3
-composer (manejador de paquetes de php)
-nodejs 22 LTS 
+## Requisitos
 
--en el php.ini verificar que esten habilitadas las extensiones (copiar y pegar este bloque si es necesario):
+- PHP 8.3
+- Composer
+- Node.js 22 LTS
+- MySQL
 
-extension=zip
+---
+
+## Configuración de PHP
+
+Verifique que las siguientes extensiones estén habilitadas en php.ini:
+
 extension=curl
-;extension=ffi
-;extension=ftp
 extension=fileinfo
-;extension=gd
-;extension=gettext
-;extension=gmp
-extension=intl
-;extension=imap
 extension=mbstring
-;extension=exif      ; Must be after mbstring as it depends on it
 extension=mysqli
-;extension=oci8_12c  ; Use with Oracle Database 12c Instant Client
-;extension=oci8_19  ; Use with Oracle Database 19 Instant Client
-;extension=odbc
 extension=openssl
-;extension=pdo_firebird
 extension=pdo_mysql
-;extension=pdo_oci
-;extension=pdo_odbc
-;extension=pdo_pgsql
-;extension=pdo_sqlite
-;extension=pgsql
-;extension=shmop
+extension=zip
 
-ir al directorio rifaNavidad\rifa y ejecutar composer install 
-ejecutar copy .env.example .env (para crear el .env)
-ejecutar php artisan key:generate
 
-verificar que las configuraciones de la BD sean: 
+---
+
+## Base de datos
+
+1. Crear una base de datos llamada:
+
+rifa
+
+
+2. Importar el archivo:
+
+database/rifa.sql
+
+---
+
+## Configuración del Backend (Laravel)
+
+Ir al directorio:
+
+cd backend
+
+Instalar dependencias:
+
+composer install
+
+Crear el archivo .env:
+
+copy .env.example .env
+
+Generar la clave de la aplicación:
+
+php artisan key:generate
+
+Verificar que el archivo .env tenga la siguiente configuración:
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -46,12 +64,66 @@ DB_DATABASE=rifa
 DB_USERNAME=root
 DB_PASSWORD=
 
-verificar que la BD rifa esté creada, importar el archivo sql de la carpeta modelo 
 
-php artisan config:clear
-php artisan cache:clear
+Limpiar la caché de configuración:
 
-correr el servidor con php artisan serve
+php artisan optimize:clear
 
-ir al directorio rifaNavidad/vista y ejecutar npm install para instalar dependencias 
-correr el front end con npm start
+Iniciar el servidor:
+
+php artisan serve
+
+El backend quedará disponible en:
+
+http://127.0.0.1:8000
+
+---
+
+## Configuración del Frontend (React)
+
+Abrir otra terminal.
+
+Ir al directorio:
+
+cd frontend
+
+
+Instalar dependencias:
+
+npm install
+
+Iniciar la aplicación:
+
+npm start
+
+El frontend quedará disponible en:
+
+http://localhost:3000
+
+
+---
+
+## Usuarios de prueba
+
+Para realizar pruebas utilice identificaciones impares entre **1 y 99**.
+
+Ejemplos:
+
+1
+3
+5
+7
+...
+99
+
+
+Las identificaciones pares están deshabilitadas intencionalmente para facilitar las pruebas.
+
+---
+
+## Tecnologías
+
+- React (Create React App)
+- Laravel
+- MySQL
+- Axios
