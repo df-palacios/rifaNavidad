@@ -7,7 +7,7 @@ const Header = () => {
 
     const resetDatabase = async () => {
         try {
-            await axios.post('http://localhost:8000/api/reset-db');
+            await axios.post(`${process.env.REACT_APP_API_URL}/api/reset-db`);
             alert("Base de datos reiniciada correctamente.");
         } catch (e) {
             alert("Error al reiniciar la base de datos.");
