@@ -60,3 +60,50 @@
         }
     }
 }
+
+@include mobile {
+    .form-container {
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        max-width: 360px;
+        margin: auto;
+        padding: 20px 18px;
+
+        h2 {
+            font-size: 19px;
+            margin-bottom: 14px;
+        }
+
+        input {
+            font-size: 15px;
+            padding: 12px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 13px;
+        }
+
+        .btn-jugar {
+            width: 100%;
+            font-size: 17px;
+            padding: 13px 20px;
+        }
+    }
+
+    @include from($bp-390) {
+        .form-container {
+            max-width: 380px;
+        }
+    }
+
+    @include from($bp-480) {
+        .form-container {
+            max-width: 400px;
+            padding: 24px 22px;
+        }
+    }
+}

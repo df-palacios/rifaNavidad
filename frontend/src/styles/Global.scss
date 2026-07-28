@@ -1,7 +1,16 @@
+@import './_breakpoints.scss';
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 @font-face {
@@ -24,6 +33,22 @@ body {
     text-transform: uppercase;
     font-size: 12px;
     background: #ededed;
+}
+
+@include mobile {
+    html,
+    body {
+        min-height: 100dvh;
+    }
+
+    /* Fondo navideño continuo detrás del header (ahora en flujo normal) y del
+       contenido, evitando la franja blanca/gris que quedaba arriba en móvil. */
+    body {
+        background-image: url('../assets/FotosRetocadas/background2.jpg');
+        background-size: cover;
+        background-position: center top;
+        background-repeat: no-repeat;
+    }
 }
 
 h1,
@@ -50,3 +75,5 @@ button {
 @import './Home.scss';
 @import './Slide.scss';
 @import './Juego.scss';
+@import './FormValidacion.scss';
+@import './ListaGanadores.scss';

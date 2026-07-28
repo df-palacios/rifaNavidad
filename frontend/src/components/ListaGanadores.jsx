@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/ListaGanadores.scss';
+import { API_BASE_URL } from '../config/api';
 
 const ListaGanadores = () => {
     // Estado para guardar la lista de premios
@@ -12,7 +12,7 @@ const ListaGanadores = () => {
     // useEffect para obtener los premios al montar el componente
     useEffect(() => {
         // Realizar la solicitud GET para obtener los premios
-        axios.get(`${process.env.REACT_APP_API_URL}/api/premios`)
+        axios.get(`${API_BASE_URL}/api/premios`)
             .then((response) => {
                 setPremios(response.data); // Guardar la lista de premios en el estado
                 obtenerNombresGanadores(response.data); // Obtener nombres de los ganadores
@@ -27,7 +27,7 @@ const ListaGanadores = () => {
         // Iterar sobre los premios para obtener el nombre de cada ganador
         premios.forEach((premio) => {
             if (premio.idGanador) {
-                axios.get(`${process.env.REACT_APP_API_URL}/api/clientes/${premio.idGanador}`)
+                axios.get(`${API_BASE_URL}/api/clientes/${premio.idGanador}`)
                     .then((response) => {
                         setGanadores((prevGanadores) => ({
                             ...prevGanadores,

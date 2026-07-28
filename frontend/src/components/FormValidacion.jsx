@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/FormValidacion.scss';
+import { API_BASE_URL, describeApiError } from '../config/api';
 
 const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
     const [identificacion, setIdentificacion] = useState('');
@@ -10,7 +10,7 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/premios`)
+            .get(`${API_BASE_URL}/api/premios`)
             .then((response) => {
                 const disponibles = response.data.some((premio) => premio.disponible === 1);
                 setPremiosDisponibles(disponibles);
@@ -20,7 +20,7 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
             })
             .catch((error) => {
                 console.error('Error al verificar los premios:', error);
-                setMensaje('Error al verificar los premios disponibles.');
+                setMensaje(describeApiError(error, 'Error al verificar los premios disponibles.'));
             });
     }, []);
 
@@ -36,13 +36,13 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
         }
 
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`)
+            .get(`${API_BASE_URL}/api/clientes/${identificacion}`)
             .then((response) => {
                 const cliente = response.data;
 
                 if (cliente.usuarioHabilitado && !cliente.haParticipado) {
                     axios
-                        .put(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`, {
+                        .put(`${API_BASE_URL}/api/clientes/${identificacion}`, {
                             haParticipado: 1,
                         })
                         .then(() => {

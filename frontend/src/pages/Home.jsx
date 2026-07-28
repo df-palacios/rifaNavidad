@@ -6,7 +6,6 @@ import ListaGanadores from '../components/ListaGanadores';
 import Footer from '../components/Footer';
 import Juego from '../components/Juego';
 import backgroundImage from '../assets/FotosRetocadas/background2.jpg';
-import '../styles/Home.scss';
 
 const Home = () => {
     const [view, setView] = useState('slide');
@@ -17,7 +16,6 @@ const Home = () => {
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '100vh',
         width: '100%',
     };
 
@@ -26,34 +24,36 @@ const Home = () => {
     };
 
     return (
-        <>
+        <div className="app-shell">
             <Header />
             <div className="home-styled" style={homeStyle}>
-                {view === 'slide' && <Slide />}
-                {view === 'form' && (
-                    <FormValidacion
-                        onPlay={() => setView('juego')}
-                        setUserValidated={setIsUserValidated}
-                        setUserId={setUserId} // Pasar setUserId al formulario
-                    />
-                )}
-                {view === 'ganadores' && <ListaGanadores />}
-                {view === 'juego' && (
-                    <Juego
-                        onFinish={() => {
-                            setView('slide');
-                            resetUserValidation();
-                        }}
-                        userId={userId} // Pasar el userId al componente Juego
-                    />
-                )}
+                <div className="view-wrapper">
+                    {view === 'slide' && <Slide />}
+                    {view === 'form' && (
+                        <FormValidacion
+                            onPlay={() => setView('juego')}
+                            setUserValidated={setIsUserValidated}
+                            setUserId={setUserId} // Pasar setUserId al formulario
+                        />
+                    )}
+                    {view === 'ganadores' && <ListaGanadores />}
+                    {view === 'juego' && (
+                        <Juego
+                            onFinish={() => {
+                                setView('slide');
+                                resetUserValidation();
+                            }}
+                            userId={userId} // Pasar el userId al componente Juego
+                        />
+                    )}
+                </div>
                 <Footer
                     setView={setView}
                     currentView={view}
                     isUserValidated={isUserValidated}
                 />
             </div>
-        </>
+        </div>
     );
 };
 

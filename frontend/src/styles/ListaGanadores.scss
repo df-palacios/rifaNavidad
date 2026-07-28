@@ -32,12 +32,14 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
 
             td {
                 text-align: left;
                 padding: 10px;
                 border-bottom: 1px solid #ddd;
                 font-size: 16px;
+                overflow-wrap: break-word;
             }
 
             /* Asegurar que las columnas tengan la misma distribución que el encabezado */
@@ -50,16 +52,59 @@
             }
         }
     }
+}
 
-    /* Ajustes responsivos para pantallas pequeñas */
-    @media (max-width: 768px) {
-        padding: 10px;
-        width: 95%; /* Ancho más grande en pantallas pequeñas */
-        height: 41%; /* Asegura que la tabla termine al 66% */
+@include mobile {
+    .table-container {
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        max-height: 55dvh;
+        margin: auto;
+
+        .table-header {
+            font-size: 14px;
+            padding: 8px 10px;
+        }
+
+        .table-content {
+            padding: 8px;
+
+            table td {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
     }
 
-    @media (orientation: portrait) {
-        width: 95%; /* Asegura un ancho adecuado en orientación vertical */
-        height: 41%; /* Mantener altura del 41% en vertical */
+    @include from($bp-390) {
+        .table-container {
+            max-width: 430px;
+
+            .table-header {
+                font-size: 15px;
+            }
+
+            .table-content table td {
+                font-size: 14px;
+            }
+        }
+    }
+
+    @include from($bp-480) {
+        .table-container {
+            max-width: 460px;
+            max-height: 58dvh;
+        }
+    }
+
+    @include from($bp-576) {
+        .table-container {
+            max-width: 520px;
+        }
     }
 }
