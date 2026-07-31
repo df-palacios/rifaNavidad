@@ -5,7 +5,6 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow: hidden;
 
   h2 {
     font-size: 28px;
@@ -81,53 +80,82 @@
 }
 
 @include mobile {
+  // La rueda mide ~305px de forma nativa. Se escala segun el ancho de la
+  // pantalla dejando margen a los lados para que no toque los bordes.
+  //
+  // `transform: scale()` no altera la caja de layout, asi que se compensa
+  // con margen vertical: extra = 305 * (escala - 1), la mitad por lado.
   .juego-container {
     height: auto;
     min-height: 0;
-    margin: auto 0;
-    padding: 16px 16px 24px;
-    gap: 4px;
+    flex: 1;
+    // Grupo compacto y centrado: el titulo, la rueda y el boton quedan
+    // juntos en vez de separarse con huecos grandes.
+    justify-content: center;
+    gap: 16px;
+    margin: 0;
+    padding: 8px 12px 16px;
 
     h2 {
       font-size: 18px;
-      margin-bottom: 12px;
+      margin-bottom: 0;
     }
 
     .wheel-wrapper {
-      transform: scale(0.72);
+      transform: scale(0.85);
       transform-origin: center center;
-      margin: -13vw 0;
+      margin: -23px 0;
     }
 
     .btn-spin {
-      margin-top: 12px;
-      font-size: 15px;
-      padding: 10px 22px;
+      margin-top: 0;
+      font-size: 17px;
+      padding: 14px 42px;
+      border-radius: 8px;
+    }
+  }
+
+  @include from($bp-360) {
+    .juego-container .wheel-wrapper {
+      transform: scale(0.95);
+      margin: -8px 0;
     }
   }
 
   @include from($bp-390) {
     .juego-container .wheel-wrapper {
-      transform: scale(0.8);
-      margin: -9vw 0;
+      transform: scale(1);
+      margin: 0;
+    }
+  }
+
+  @include from($bp-412) {
+    .juego-container .wheel-wrapper {
+      transform: scale(1.05);
+      margin: 8px 0;
     }
   }
 
   @include from($bp-480) {
-    .juego-container .wheel-wrapper {
-      transform: scale(0.9);
-      margin: -5vw 0;
-    }
+    .juego-container {
+      h2 { font-size: 20px; }
 
-    .juego-container h2 {
-      font-size: 20px;
+      .wheel-wrapper {
+        transform: scale(1.15);
+        margin: 23px 0;
+      }
+
+      .btn-spin {
+        font-size: 18px;
+        padding: 15px 48px;
+      }
     }
   }
 
   @include from($bp-576) {
     .juego-container .wheel-wrapper {
-      transform: scale(1);
-      margin: 0;
+      transform: scale(1.25);
+      margin: 38px 0;
     }
   }
 }

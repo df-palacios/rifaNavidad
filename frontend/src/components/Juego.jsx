@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Wheel } from 'react-custom-roulette';
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
+import { navigate, jackpot, lose, pop, error as errorSound } from '../lib/audio';
+import { startWheelRatchet } from '../lib/wheelRatchet';
+import wheelPointer from '../assets/wheelPointer.svg';
 
 // Genera N chispas con ángulo/distancia/color/retraso aleatorios para que
 // cada explosión de fuegos artificiales se vea distinta y orgánica.
@@ -52,11 +55,19 @@ const FireworksOverlay = ({ wave }) => {
     );
 };
 
+// La rueda alterna gajos ganadores y perdedores para parecerse a una rueda
+// de la fortuna real, en lugar de dos medios circulos.
+const SLICE_COUNT = 8;
+
+const premios = Array.from({ length: SLICE_COUNT }, (_, i) => ({
+    option: i % 2 === 0 ? '😃' : '😓',
+}));
+
+// Gajos pares = con premio, impares = sin premio.
+const WINNING_SLICES = premios.map((_, i) => i).filter((i) => i % 2 === 0);
+const LOSING_SLICES = premios.map((_, i) => i).filter((i) => i % 2 !== 0);
+
 const Juego = ({ onFinish, userId }) => {
-    const premios = [
-        { option: '😃' }, // Ganador
-        { option: '😓' }, // Perdedor
-    ];
 
     const [mustSpin, setMustSpin] = useState(false);
     const [prizeIndex, setPrizeIndex] = useState(null);
@@ -64,39 +75,100 @@ const Juego = ({ onFinish, userId }) => {
     const [showFireworks, setShowFireworks] = useState(false);
     const [fireworksWave, setFireworksWave] = useState(0);
 
+    // Referencias para poder cortar sonidos/temporizadores si el componente
+    // se desmonta a mitad de un giro o de la celebracion.
+    const wheelBoxRef = useRef(null);
+    const stopTicksRef = useRef(null);
+    const celebrationTimersRef = useRef([]);
+    const waveIntervalRef = useRef(null);
+
+    // Corta TODO lo que suena o esta agendado: el trinquete de la ruleta,
+    // los temporizadores de la celebracion y el intervalo de los estallidos.
+    //
+    // El intervalo necesita su propia referencia: antes solo lo cancelaba un
+    // setTimeout que a su vez se limpiaba al desmontar, asi que si salias
+    // antes de que terminara la celebracion el intervalo quedaba huerfano
+    // reproduciendo "pop" indefinidamente.
+    const stopAllSounds = useCallback(() => {
+        if (stopTicksRef.current) {
+            stopTicksRef.current();
+            stopTicksRef.current = null;
+        }
+
+        if (waveIntervalRef.current) {
+            clearInterval(waveIntervalRef.current);
+            waveIntervalRef.current = null;
+        }
+
+        celebrationTimersRef.current.forEach(clearTimeout);
+        celebrationTimersRef.current = [];
+    }, []);
+
+    useEffect(() => stopAllSounds, [stopAllSounds]);
+
     const celebrateWin = () => {
         setShowFireworks(true);
         setFireworksWave((w) => w + 1);
 
+        // Fanfarria de casino al ganar.
+        jackpot();
+
+        // El primer estallido acompana la primera oleada de chispas.
+        const firstPop = setTimeout(() => pop(), 120);
+        celebrationTimersRef.current.push(firstPop);
+
         // Varias oleadas de chispas espaciadas, para que la celebración dure
         // un rato sin dejar un solo destello que se apague enseguida.
-        const waveTimer = setInterval(() => {
+        // Cada oleada lleva su propio "pop" para que suene y se vea a la vez.
+        waveIntervalRef.current = setInterval(() => {
             setFireworksWave((w) => w + 1);
+            pop();
         }, 1000);
 
-        setTimeout(() => {
-            clearInterval(waveTimer);
+        const endTimer = setTimeout(() => {
+            if (waveIntervalRef.current) {
+                clearInterval(waveIntervalRef.current);
+                waveIntervalRef.current = null;
+            }
             setShowFireworks(false);
         }, 3800);
+        celebrationTimersRef.current.push(endTimer);
     };
 
     const handleSpinClick = () => {
         if (!mustSpin) {
-            // Lógica para 1/2 probabilidad de ganar
-            const randomNumber = Math.floor(Math.random() * 2); // Generar un número entre 0 y 1
-            const index = randomNumber === 0 ? 0 : 1; // Si es 0, gana; de lo contrario, pierde
+            // 40% de probabilidad de ganar, 60% de perder. Dentro del grupo
+            // que toque se elige un gajo al azar, asi la rueda no cae
+            // siempre en el mismo punto y el giro se ve creible.
+            const pool = Math.random() < 0.4 ? WINNING_SLICES : LOSING_SLICES;
+            const index = pool[Math.floor(Math.random() * pool.length)];
             setPrizeIndex(index);
             setMustSpin(true);
+
+            // Trinquete sincronizado con la rotacion real de la rueda.
+            navigate();
+            if (stopTicksRef.current) stopTicksRef.current();
+            stopTicksRef.current = startWheelRatchet(wheelBoxRef.current);
         }
     };
 
     const handleSpinEnd = () => {
         setMustSpin(false);
+
+        // La ruleta se detuvo: cortamos el trinquete.
+        if (stopTicksRef.current) {
+            stopTicksRef.current();
+            stopTicksRef.current = null;
+        }
+
         const resultMessage = premios[prizeIndex].option === '😃' ? 'GANASTE' : 'PERDISTE';
         setResult(resultMessage);
 
         if (resultMessage === 'GANASTE') {
+            // La fanfarria suena en celebrateWin, cuando el premio ya se asigno.
             asignarPremio();
+        } else {
+            lose();
         }
     };
 
@@ -116,10 +188,12 @@ const Juego = ({ onFinish, userId }) => {
                 setResult(`¡Felicitaciones! Ganaste: ${premioDisponible.nombrePremio}`);
                 celebrateWin();
             } else {
+                lose();
                 setResult('No hay premios disponibles en este momento.');
             }
         } catch (error) {
             console.error('Error al asignar el premio:', error);
+            errorSound();
             setResult('Hubo un error al asignar el premio. Intenta nuevamente.');
         }
     };
@@ -128,19 +202,36 @@ const Juego = ({ onFinish, userId }) => {
         <div className="juego-container">
             {showFireworks && <FireworksOverlay wave={fireworksWave} />}
             <h2 className="contrasted-text">{result || '¡Gira la rueda de la fortuna!'}</h2>
-            <div className="wheel-wrapper">
+            <div className="wheel-wrapper" ref={wheelBoxRef}>
                 <Wheel
                     mustStartSpinning={mustSpin}
-                    prizeNumber={prizeIndex}
+                    prizeNumber={prizeIndex ?? 0}
                     data={premios}
                     onStopSpinning={handleSpinEnd}
-                    backgroundColors={['#50C878', '#6d0606']}
-                    textColors={['#fff']}
-                    fontSize={96}
+                    /* Verde = con premio, crema = sin premio; alternados */
+                    backgroundColors={['#15803d', '#fdf6e3']}
+                    textColors={['#ffffff', '#7c2d12']}
+                    fontSize={52}
+                    textDistance={62}
+                    outerBorderColor="#d4af37"
+                    outerBorderWidth={14}
+                    innerRadius={9}
+                    innerBorderColor="#d4af37"
+                    innerBorderWidth={10}
+                    radiusLineColor="#d4af37"
+                    radiusLineWidth={2}
+                    pointerProps={{ src: wheelPointer }}
                 />
             </div>
             {result ? (
-                <button onClick={onFinish} className="btn-spin">
+                <button
+                    onClick={() => {
+                        stopAllSounds();
+                        navigate();
+                        onFinish();
+                    }}
+                    className="btn-spin"
+                >
                     REGRESAR
                 </button>
             ) : (

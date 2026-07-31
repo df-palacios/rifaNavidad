@@ -22,10 +22,14 @@
 .prize-showcase-mobile {
   position: static;
   width: 100%;
-  padding: 0 16px 14px;
+  padding: 4px 16px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  // Ocupa todo el alto disponible y reparte el espacio sobrante entre la
+  // tarjeta y las miniaturas, en vez de dejarlo todo junto al final.
+  flex: 1;
+  justify-content: space-evenly;
   gap: 10px;
 
   .featured-prize {
@@ -45,7 +49,7 @@
       display: block;
       width: 100%;
       height: auto;
-      max-height: 43vh;
+      max-height: 46vh;
       object-fit: cover;
     }
   }
@@ -60,8 +64,8 @@
     }
 
     img {
-      width: 72px;
-      height: 72px;
+      width: 84px;
+      height: 84px;
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -76,8 +80,8 @@
     }
 
     .secondary-prizes img {
-      width: 80px;
-      height: 80px;
+      width: 92px;
+      height: 92px;
     }
   }
 
@@ -87,8 +91,8 @@
     }
 
     .secondary-prizes img {
-      width: 92px;
-      height: 92px;
+      width: 104px;
+      height: 104px;
     }
   }
 
