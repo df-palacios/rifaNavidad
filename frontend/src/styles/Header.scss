@@ -7,7 +7,14 @@
     left: 0;
     width: 100%;
     height: 25vh; /* Ocupa el 25% de la altura de la ventana */
-    z-index: 999;
+    // Por encima del footer (z-index:999, tambien fixed): al ser hermanos
+    // en el mismo nivel de apilamiento, con el mismo z-index gana el que
+    // aparece despues en el DOM (el Footer), tapando los botones del
+    // header aunque estos tengan z-index alto POR DENTRO de este bloque
+    // (ese valor solo se compara contra sus propios hermanos, no de forma
+    // global). Subir el z-index de este contenedor saca a toda su capa
+    // -botones incluidos- por encima del footer.
+    z-index: 1000;
 
     .header-image {
         position: absolute;
