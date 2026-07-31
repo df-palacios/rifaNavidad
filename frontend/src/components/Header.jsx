@@ -2,15 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import HeaderImage from '../assets/FotosRetocadas/headerImageTrimmed.png';
 import { API_BASE_URL, describeApiError } from '../config/api';
+import { click, success, error as errorSound } from '../lib/audio';
+import { PORTFOLIO_URL } from '../config/links';
 
 const Header = () => {
 
     const resetDatabase = async () => {
         try {
             await axios.post(`${API_BASE_URL}/api/reset-db`);
-            alert("Base de datos reiniciada correctamente.");
+            success();
+            alert("Aplicación reiniciada correctamente.");
         } catch (e) {
-            alert(describeApiError(e, 'Error al reiniciar la base de datos.'));
+            errorSound();
+            alert(describeApiError(e, 'Error al reiniciar la aplicación.'));
         }
     };
 
@@ -21,16 +25,22 @@ const Header = () => {
 
                 <button
                     className="btn-portfolio"
-                    onClick={() => window.location.href = "https://dfpalacios.cloud"}
+                    onClick={() => {
+                        click();
+                        window.location.href = PORTFOLIO_URL;
+                    }}
                 >
                     ← Volver al Portafolio
                 </button>
 
                 <button
                     className="btn-testing-reset"
-                    onClick={resetDatabase}
+                    onClick={() => {
+                        click();
+                        resetDatabase();
+                    }}
                 >
-                    [TESTING] Reiniciar BD
+                    [TESTING] Reiniciar aplicación
                 </button>
 
             </div>
