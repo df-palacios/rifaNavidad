@@ -19,39 +19,116 @@
     }
 }
 
-.header-buttons{
-    position:absolute;
-    top:110px;
-    left:70px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    z-index:10000;
+// Se anclan abajo a la izquierda: alli el fondo navideno es mas plano que
+// en la esquina superior (donde competian con las esferas y las estrellas)
+// y quedan a la misma altura que los botones de accion del footer.
+.header-buttons {
+    position: fixed;
+    top: auto;
+    bottom: 28px;
+    left: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10000;
 }
 
-.btn-portfolio{
-    background:#005bbb;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:10px 18px;
-    font-weight:bold;
-    cursor:pointer;
+// Ambos botones comparten el mismo recurso de legibilidad: borde claro y
+// sombra proyectada, que los separa del fondo sea cual sea la imagen que
+// tengan detras.
+.btn-portfolio,
+.btn-testing-reset {
+    border-radius: 8px;
+    padding: 11px 20px;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    transition: background 0.2s ease, transform 0.15s ease;
 
-    &:hover{
-        background:#00479a;
+    &:hover {
+        transform: translateY(-1px);
     }
 }
 
-.btn-testing-reset{
-    background:#444;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    padding:10px 18px;
-    cursor:pointer;
+.btn-portfolio {
+    background: #0a58c2;
 
-    &:hover{
-        background:#b00000;
+    &:hover {
+        background: #0847a0;
+    }
+}
+
+.btn-testing-reset {
+    // Gris muy oscuro casi opaco: contrasta con el rojo del fondo sin
+    // competir en color con el boton principal.
+    background: rgba(24, 24, 27, 0.92);
+
+    &:hover {
+        background: rgba(139, 0, 0, 0.95);
+    }
+}
+
+@include mobile {
+    .header-styled {
+        position: static;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-shrink: 0;
+        height: auto;
+        width: 100%;
+        padding: 8px 6px 4px;
+        gap: 6px;
+
+        // El banner del título es muy ancho y bajo (proporción ~7.5:1), así
+        // que la única forma de que se vea grande sin deformarlo es darle
+        // todo el ancho disponible. La imagen viene recortada de su margen
+        // transparente para que las letras ocupen el máximo posible.
+        .header-image {
+            position: static;
+            top: auto;
+            left: auto;
+            transform: none;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            max-height: none;
+            object-fit: contain;
+            order: 2;
+            margin-top: 34px;
+        }
+    }
+
+    .header-buttons {
+        position: static;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 8px;
+        order: 1;
+    }
+
+    .btn-portfolio,
+    .btn-testing-reset {
+        padding: 8px 12px;
+        font-size: 11px;
+        border-radius: 6px;
+        flex: 1 1 auto;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    @include from($bp-390) {
+        .btn-portfolio,
+        .btn-testing-reset {
+            font-size: 12px;
+            padding: 9px 14px;
+        }
     }
 }

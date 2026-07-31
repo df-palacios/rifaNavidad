@@ -51,3 +51,57 @@
     }
 }
 
+@include mobile {
+    .footer-styled {
+        position: static;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 100%;
+        flex-shrink: 0;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+
+        .footer-center {
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            gap: 10px;
+
+            .btn-participar,
+            .btn-ver-ganadores {
+                flex: 1 1 100%;
+                padding: 12px 16px;
+                font-size: 14px;
+
+                &:hover {
+                    transform: none;
+                }
+            }
+        }
+    }
+
+    @include from($bp-360) {
+        .footer-styled .footer-center {
+            .btn-participar,
+            .btn-ver-ganadores {
+                flex: 1 1 calc(50% - 5px);
+            }
+        }
+    }
+
+    @include from($bp-480) {
+        .footer-styled .footer-center {
+            .btn-participar,
+            .btn-ver-ganadores {
+                padding: 13px 18px;
+                font-size: 15px;
+            }
+        }
+    }
+
+    @include from($bp-576) {
+        .footer-styled {
+            padding: 14px 24px calc(14px + env(safe-area-inset-bottom, 0px));
+        }
+    }
+}

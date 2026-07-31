@@ -1,0 +1,31 @@
+// Breakpoints móviles consistentes en todo el proyecto.
+// "md" (768px) es el límite del escritorio, que se mantiene intacto.
+$bp-320: 320px;
+$bp-360: 360px;
+$bp-375: 375px;
+$bp-390: 390px;
+$bp-412: 412px;
+$bp-480: 480px;
+$bp-576: 576px;
+$bp-768: 768px;
+
+// Bloque para TODO lo que sea menor al escritorio (mobile-first desde cero,
+// sin tocar los estilos de escritorio ya existentes).
+@mixin mobile {
+    @media (max-width: #{$bp-768 - 1px}) {
+        @content;
+    }
+}
+
+// Afinar dentro del rango móvil a partir de un ancho mínimo dado.
+@mixin from($width) {
+    @media (min-width: $width) {
+        @content;
+    }
+}
+
+@mixin between($min, $max) {
+    @media (min-width: $min) and (max-width: #{$max - 1px}) {
+        @content;
+    }
+}

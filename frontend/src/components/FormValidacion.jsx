@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles/FormValidacion.scss';
+import { API_BASE_URL, describeApiError } from '../config/api';
+import { click, navigate, success, error as errorSound } from '../lib/audio';
 
 const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
     const [identificacion, setIdentificacion] = useState('');
@@ -10,42 +11,46 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
 
     useEffect(() => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/premios`)
+            .get(`${API_BASE_URL}/api/premios`)
             .then((response) => {
                 const disponibles = response.data.some((premio) => premio.disponible === 1);
                 setPremiosDisponibles(disponibles);
                 if (!disponibles) {
-                    setMensaje('No hay premios disponibles en este momento.');
+                    errorSound();
+            setMensaje('No hay premios disponibles en este momento.');
                 }
             })
             .catch((error) => {
                 console.error('Error al verificar los premios:', error);
-                setMensaje('Error al verificar los premios disponibles.');
+                setMensaje(describeApiError(error, 'Error al verificar los premios disponibles.'));
             });
     }, []);
 
     const handleValidarParticipacion = () => {
         if (!identificacion) {
+            errorSound();
             setMensaje('Por favor, ingresa una identificación válida.');
             return;
         }
 
         if (!premiosDisponibles) {
+            errorSound();
             setMensaje('No hay premios disponibles en este momento.');
             return;
         }
 
         axios
-            .get(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`)
+            .get(`${API_BASE_URL}/api/clientes/${identificacion}`)
             .then((response) => {
                 const cliente = response.data;
 
                 if (cliente.usuarioHabilitado && !cliente.haParticipado) {
                     axios
-                        .put(`${process.env.REACT_APP_API_URL}/api/clientes/${identificacion}`, {
+                        .put(`${API_BASE_URL}/api/clientes/${identificacion}`, {
                             haParticipado: 1,
                         })
                         .then(() => {
+                            success();
                             setMensaje('¡Participación validada con éxito!');
                             setIsValidated(true);
                             setUserValidated(true);
@@ -53,13 +58,16 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
                         })
                         .catch((error) => {
                             console.error('Error al actualizar la participación:', error);
-                            setMensaje('Hubo un error al validar la participación.');
+                            errorSound();
+            setMensaje('Hubo un error al validar la participación.');
                         });
                 } else {
                     if (!cliente.usuarioHabilitado) {
-                        setMensaje('El usuario no está habilitado para participar.');
+                        errorSound();
+            setMensaje('El usuario no está habilitado para participar.');
                     } else if (cliente.haParticipado) {
-                        setMensaje('El usuario ya ha participado.');
+                        errorSound();
+            setMensaje('El usuario ya ha participado.');
                     }
                 }
             })
@@ -85,7 +93,10 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
                         Ingrese un número entre 1 y 99 para probar la aplicación, sólo los usuarios impares pueden participar.
                     </medium>
                     <button
-                        onClick={handleValidarParticipacion}
+                        onClick={() => {
+                            click();
+                            handleValidarParticipacion();
+                        }}
                         disabled={!premiosDisponibles}
                     >
                         INGRESAR
@@ -95,7 +106,13 @@ const FormValidacion = ({ onPlay, setUserValidated, setUserId }) => {
             ) : (
                 <>
                     <h2>{mensaje}</h2>
-                    <button className="btn-jugar" onClick={onPlay}>
+                    <button
+                        className="btn-jugar"
+                        onClick={() => {
+                            navigate();
+                            onPlay();
+                        }}
+                    >
                         JUGAR
                     </button>
                 </>

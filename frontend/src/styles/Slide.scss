@@ -17,17 +17,90 @@
     object-fit: contain; /* Escalar sin recortar */
     margin: 0 auto;
   }
+}
 
-  @media (max-width: 768px) {
-    .swiper-slide img {
-      max-width: 90%;
-      max-height: 30vh; /* Reducir altura en pantallas pequeñas */
+.prize-showcase-mobile {
+  position: static;
+  width: 100%;
+  padding: 4px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // Ocupa todo el alto disponible y reparte el espacio sobrante entre la
+  // tarjeta y las miniaturas, en vez de dejarlo todo junto al final.
+  flex: 1;
+  justify-content: space-evenly;
+  gap: 10px;
+
+  .featured-prize {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+
+    &__slider {
+      width: 100%;
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 46vh;
+      object-fit: cover;
     }
   }
 
-  @media (orientation: portrait) {
-    .swiper-slide img {
-      max-height: 20vh; /* Reducir aún más en pantallas verticales */
+  .secondary-prizes {
+    width: 100%;
+
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 84px;
+      height: 84px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+  }
+
+  @include from($bp-390) {
+    .featured-prize__image {
+      max-height: 46vh;
+    }
+
+    .secondary-prizes img {
+      width: 92px;
+      height: 92px;
+    }
+  }
+
+  @include from($bp-480) {
+    .featured-prize {
+      max-width: 390px;
+    }
+
+    .secondary-prizes img {
+      width: 104px;
+      height: 104px;
+    }
+  }
+
+  @include from($bp-576) {
+    padding: 14px 24px 18px;
+
+    .featured-prize {
+      max-width: 400px;
     }
   }
 }
